@@ -27,7 +27,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 sso = GoogleSSO(
     client_id=CLIENT_ID,
     client_secret=CLIENT_SECRET,
-    redirect_uri="https://d2eakloxxxvksx.cloudfront.net/auth/",
+    redirect_uri="https://d2eakloxxxvksx.cloudfront.net/auth/login",
     allow_insecure_http=True,
 )
 
