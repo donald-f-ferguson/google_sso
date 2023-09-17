@@ -94,7 +94,7 @@ async def home_page():
     </head>
     <body>
         <div class="container">
-        <form action="https://d2eakloxxxvksx.cloudfront.net//auth/login">
+        <form action="https://d2eakloxxxvksx.cloudfront.net/auth/login">
             <div class="logo">
                 <img src="https://d2eakloxxxvksx.cloudfront.net/static/e6156-logo.jpg" 
                     height="100px" alt="Google Logo">
