@@ -158,4 +158,4 @@ async def auth_callback(request: Request):
         return RedirectResponse("/static/error.html")
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="localhost", port=5001)
+    uvicorn.run(app, host="0.0.0.0", port=5001)
