@@ -4,7 +4,7 @@
 import os
 import uvicorn
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi_sso.sso.google import GoogleSSO
 import json
 
@@ -31,6 +31,26 @@ sso = GoogleSSO(
     allow_insecure_http=True,
 )
 
+
+@app.get("/ping", response_class=HTMLResponse)
+def ping():
+    """
+
+    :return:
+    """
+
+    rsp = """
+     <!DOCTYPE html>
+            <html>
+            <head>
+                <title>User Info</title>
+            </head>
+            <body>
+               Pong.
+            </body>
+            </html>
+    """
+    return rsp
 
 @app.get("/", response_class=HTMLResponse)
 async def home_page():
@@ -98,37 +118,44 @@ async def auth_init():
 @app.get("/auth/callback", response_class=HTMLResponse)
 async def auth_callback(request: Request):
     """Verify login"""
-    with sso:
-        user = await sso.verify_and_process(request)
-        data = user
 
-        student = my_sql_data_service.get_student_info(user.email)
-        print("Student = \n", json.dumps(student, indent=2, default=str))
-        coupon = student.get("coupon_code", None)
-        coupon_value = student.get("value", None)
+    try:
+        with sso:
+            user = await sso.verify_and_process(request)
+            data = user
 
-        html_content = f"""
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <title>User Info</title>
-            </head>
-            <body>
-                <h1>User Information</h1>
-                <img src="{user.picture}" alt="User Picture" width="96" height="96"><br>
-                <p>ID: {user.id}</p>
-                <p>Email: {user.email}</p>
-                <p>First Name: {user.first_name}</p>
-                <p>Last Name: {user.last_name}</p>
-                <p>Display Name: {user.display_name}</p>
-                <p>Identity Provider: {user.provider}</p>
-                <p>Google Coupon: {coupon}<br>
-                <p>Coupon Value: ${coupon_value}
-            </body>
-            </html>
-            """
+            student = my_sql_data_service.get_student_info(user.email)
+            print("Student = \n", json.dumps(student, indent=2, default=str))
+            coupon = student.get("coupon_code", None)
+            coupon_value = student.get("value", None)
 
-        return HTMLResponse(content=html_content)
+            if user.email == "dff9@columbia.edu":
+                raise Exception("Not cool dude.")
+
+            html_content = f"""
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>User Info</title>
+                </head>
+                <body>
+                    <h1>User Information</h1>
+                    <img src="{user.picture}" alt="User Picture" width="96" height="96"><br>
+                    <p>ID: {user.id}</p>
+                    <p>Email: {user.email}</p>
+                    <p>First Name: {user.first_name}</p>
+                    <p>Last Name: {user.last_name}</p>
+                    <p>Display Name: {user.display_name}</p>
+                    <p>Identity Provider: {user.provider}</p>
+                    <p>Google Coupon: {coupon}<br>
+                    <p>Coupon Value: ${coupon_value}
+                </body>
+                </html>
+                """
+
+            return HTMLResponse(content=html_content)
+    except Exception as e:
+        return RedirectResponse("/static/error.html")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="localhost", port=5001)
