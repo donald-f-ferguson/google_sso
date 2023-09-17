@@ -27,7 +27,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 sso = GoogleSSO(
     client_id=CLIENT_ID,
     client_secret=CLIENT_SECRET,
-    redirect_uri="http://localhost:5001/auth/callback",
+    redirect_uri="https://d2eakloxxxvksx.cloudfront.net/auth/",
     allow_insecure_http=True,
 )
 
@@ -94,9 +94,9 @@ async def home_page():
     </head>
     <body>
         <div class="container">
-        <form action="http://localhost:5001/auth/login">
+        <form action="https://d2eakloxxxvksx.cloudfront.net//auth/login">
             <div class="logo">
-                <img src="http://localhost:5001/static/e6156-logo.jpg" 
+                <img src="https://d2eakloxxxvksx.cloudfront.net/static/e6156-logo.jpg" 
                     height="100px" alt="Google Logo">
             </div>
             <h2>Sign in with your Google Account</h2>
