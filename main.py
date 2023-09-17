@@ -96,7 +96,9 @@ async def home_page():
         <div class="container">
         <p>
         This is the sample web application for <a href="https://donald-f-ferguson.github.io/E6156-Cloud-Computing-F23/">
-        E6156 - Topics in SW Engineering, section 001, Fall 2023. The application simply demonstrates single sign-on
+        E6156 - Topics in SW Engineering, section 001, Fall 2023.</a> 
+        </p>
+        <p>The application simply demonstrates single sign-on
         via Google for Columbia University students.
         </p>
         <p>
