@@ -4,6 +4,6 @@ After=multi-user.target
 [Service]
 Type=simple
 Restart=always
-ExecStart=/usr/bin/python3 /home/<username>/test.py
+ExecStart=source /home/ec2-user/google_sso/demon/start_server.sh
 [Install]
 WantedBy=multi-user.target
