@@ -4,6 +4,6 @@ After=multi-user.target
 [Service]
 Type=simple
 Restart=always
-ExecStart=source /home/ec2-user/google_sso/demon/start_server.sh
+ExecStart=/home/ec2-user/google_sso/demon/start_server.sh
 [Install]
 WantedBy=multi-user.target
