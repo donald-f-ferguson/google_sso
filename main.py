@@ -143,8 +143,8 @@ async def auth_callback(request: Request):
             coupon = student.get("coupon_code", None)
             coupon_value = student.get("value", None)
 
-            if user.email == "dff9@columbia.edu":
-                raise Exception("Not cool dude.")
+            # if user.email == "dff9@columbia.edu":
+            #    raise Exception("Not cool dude.")
 
             html_content = f"""
                 <!DOCTYPE html>
@@ -169,6 +169,7 @@ async def auth_callback(request: Request):
 
             return HTMLResponse(content=html_content)
     except Exception as e:
+        print("Exception e = ", e)
         return RedirectResponse("/static/error.html")
 
 if __name__ == "__main__":
