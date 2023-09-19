@@ -21,13 +21,14 @@ my_sql_data_service = MySQLDataService()
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 CLIENT_ID = os.environ["CLIENT_ID"]
 CLIENT_SECRET = os.environ["CLIENT_SECRET"]
+OAUTH_URL = os.environ["OAUTH_URL"]
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 sso = GoogleSSO(
     client_id=CLIENT_ID,
     client_secret=CLIENT_SECRET,
-    redirect_uri="https://d2eakloxxxvksx.cloudfront.net/auth/login",
+    redirect_uri=OAUTH_URL + "/auth/callback",
     allow_insecure_http=True,
 )
 
@@ -105,9 +106,9 @@ async def home_page():
         The application does not capture or maintain any information about users. The application does not
         share any information.
         </p>
-        <form action="https://d2eakloxxxvksx.cloudfront.net/auth/login">
+        <form action="{OAUTH_URL}/auth/login">
             <div class="logo">
-                <img src="https://d2eakloxxxvksx.cloudfront.net/static/e6156-logo.jpg" 
+                <img src="{OAUTH_URL}/static/e6156-logo.jpg" 
                     height="100px" alt="Google Logo">
             </div>
             <h2>Sign in with your Google Account</h2>
@@ -117,6 +118,8 @@ async def home_page():
     </body>
     </html>
     """
+
+    result = result.replace("{OAUTH_URL}", OAUTH_URL)
     return result
 
 @app.get("/auth/login")
