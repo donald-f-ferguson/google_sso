@@ -132,6 +132,8 @@ async def auth_init():
 @app.get("/auth/callback", response_class=HTMLResponse)
 async def auth_callback(request: Request):
     """Verify login"""
+    print("Request = ", request)
+    print("URL = ", request.url)
 
     try:
         with sso:
