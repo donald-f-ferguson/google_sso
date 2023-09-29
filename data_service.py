@@ -24,7 +24,7 @@ class MySQLDataService:
         conn = None
 
         try:
-            sql = "select * from aa_classes_projects.student_coupon_assigned where email=%s"
+            sql = "select * from aa_classes_projects.coupon_to_student where email=%s"
             conn = self._get_connection()
             cur = conn.cursor()
             full_sql = cur.mogrify(sql, email)

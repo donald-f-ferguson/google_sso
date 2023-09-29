@@ -142,8 +142,8 @@ async def auth_callback(request: Request):
 
             student = my_sql_data_service.get_student_info(user.email)
             print("Student = \n", json.dumps(student, indent=2, default=str))
-            coupon = student.get("coupon_code", None)
-            coupon_value = student.get("value", None)
+            coupon = student.get("student_coupon_code", None)
+            coupon_value = student.get("Value", None)
 
             # if user.email == "dff9@columbia.edu":
             #    raise Exception("Not cool dude.")
