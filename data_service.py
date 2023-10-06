@@ -24,18 +24,24 @@ class MySQLDataService:
         conn = None
 
         try:
-            sql = "select * from aa_classes_projects.coupon_to_student where email=%s"
+            split_email = email.split('@')
+            uni = split_email[0]
+
+            sql = "select * from aa_classes_projects.coupon_to_student where email=%s or Uni=%s"
             conn = self._get_connection()
             cur = conn.cursor()
-            full_sql = cur.mogrify(sql, email)
+            full_sql = cur.mogrify(sql, (email,uni))
             print("Full SQL = ", full_sql)
-            res = cur.execute(sql, email)
-            result = cur.fetchall()
-            if result:
+            res = cur.execute(sql, (email, uni))
+
+            if res == 1:
+                result = cur.fetchall()
                 result = result[0]
+                if uni != result['Uni']:
+                    raise Exception("WTF?")
             else:
                 result = None
-            conn = None
+            conn.close()
         except Exception as e:
             print("Exception = ", e)
             if conn:

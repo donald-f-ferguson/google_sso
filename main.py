@@ -163,6 +163,7 @@ async def auth_callback(request: Request):
                     <p>Last Name: {user.last_name}</p>
                     <p>Display Name: {user.display_name}</p>
                     <p>Identity Provider: {user.provider}</p>
+                    <h1>Google Coupon Information</h1>
                     <p>Google Coupon: {coupon}<br>
                     <p>Coupon Value: ${coupon_value}
                 </body>
