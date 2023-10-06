@@ -157,7 +157,7 @@ async def auth_callback(request: Request):
                 <body>
                     <h1>User Information</h1>
                     <img src="{user.picture}" alt="User Picture" width="96" height="96"><br>
-                    <p>ID: {user.id}</p>
+                    <p><b>ID:</b> {user.id}</p>
                     <p>Email: {user.email}</p>
                     <p>First Name: {user.first_name}</p>
                     <p>Last Name: {user.last_name}</p>
