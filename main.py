@@ -140,6 +140,9 @@ async def auth_callback(request: Request):
             user = await sso.verify_and_process(request)
             data = user
 
+            code = request.query_params['code']
+            next_url = "./next?code=" + code
+
             student = my_sql_data_service.get_student_info(user.email)
             print("Student = \n", json.dumps(student, indent=2, default=str))
             coupon = student.get("student_coupon_code", None)
@@ -166,14 +169,53 @@ async def auth_callback(request: Request):
                     <h1>Google Coupon Information</h1>
                     <p>Google Coupon: {coupon}<br>
                     <p>Coupon Value: ${coupon_value}
+                    <h1>Next Link:</h1>
+                    <p> Let's see what happens <a href=>{next_url}.</a>
                 </body>
                 </html>
                 """
 
-            return HTMLResponse(content=html_content)
+            print("Done/")
+            rsp =  HTMLResponse(content=html_content)
+            rsp.set_cookie(key="Authorization", value="Cool!")
+            return rsp
     except Exception as e:
         print("Exception e = ", e)
         return RedirectResponse("/static/error.html")
+
+
+@app.get("/next", response_class=HTMLResponse)
+async def next_link(request: Request):
+    """Verify login"""
+    print("Request = ", request)
+    print("URL = ", request.url)
+
+    try:
+        cookie = request.cookies.get("Authorization", None)
+        if cookie:
+            # user = await sso.verify_and_process(request)
+            # data = user
+
+            html_content = f"""
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Next</title>
+                </head>
+                <body>
+                    <h1>Still logged in dude.</h1>
+                    <p>
+                    The authorization header is {cookie}
+                </body>
+                </html>
+                """
+            rsp =  HTMLResponse(content=html_content)
+            rsp.set_cookie(key="Authorization", value="Cool!")
+            return rsp
+    except Exception as e:
+        print("Exception e = ", e)
+        return RedirectResponse("/static/error.html")
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=5001)
