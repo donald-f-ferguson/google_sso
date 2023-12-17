@@ -170,7 +170,7 @@ async def auth_callback(request: Request):
                     <p>Google Coupon: {coupon}<br>
                     <p>Coupon Value: ${coupon_value}
                     <h1>Next Link:</h1>
-                    <p> Let's see what happens <a href=>{next_url}.</a>
+                    <p> Let's see what happens. In the browser tab, go to the URL /next
                 </body>
                 </html>
                 """
@@ -192,7 +192,7 @@ async def next_link(request: Request):
 
     try:
         cookie = request.cookies.get("Authorization", None)
-        if cookie:
+        if cookie and cookie == "Cool!":
             # user = await sso.verify_and_process(request)
             # data = user
 
