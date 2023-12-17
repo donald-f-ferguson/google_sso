@@ -209,8 +209,11 @@ async def next_link(request: Request):
                 </body>
                 </html>
                 """
-            rsp =  HTMLResponse(content=html_content)
+            rsp = HTMLResponse(content=html_content)
             rsp.set_cookie(key="Authorization", value="Cool!")
+            return rsp
+        else:
+            rsp = HTMLResponse(status_code=403, content="Not Authorized")
             return rsp
     except Exception as e:
         print("Exception e = ", e)
