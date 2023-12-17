@@ -170,13 +170,21 @@ async def auth_callback(request: Request):
                     <p>Google Coupon: {coupon}<br>
                     <p>Coupon Value: ${coupon_value}
                     <h1>Next Link:</h1>
-                    <p> Let's see what happens. In the browser tab, go to the URL /next
+                    <p> Let's see what happens. In the browser tab, go to the URL /next<p>
+                    <br>
+                    <b style="color:red;">PROFESSOR FERGUSON WILL DENY HE TAUGHT YOU TO DO IT THIS WAY.<b>
                 </body>
                 </html>
                 """
 
             print("Done/")
             rsp =  HTMLResponse(content=html_content)
+
+            #
+            # DFF TODO This is a TERRIBLE, HIDEOUS APPROACH AND PIECE OF CODE!
+            # DFF TODO NEVER EVER DO THIS.
+            # DFF TODO THERE ARE MUCH BETTER APPROACHES.
+            #
             rsp.set_cookie(key="Authorization", value="Cool!")
             return rsp
     except Exception as e:
@@ -190,6 +198,11 @@ async def next_link(request: Request):
     print("Request = ", request)
     print("URL = ", request.url)
 
+    #
+    # DFF TODO This is a TERRIBLE, HIDEOUS APPROACH AND PIECE OF CODE!
+    # DFF TODO NEVER EVER DO THIS.
+    # DFF TODO THERE ARE MUCH BETTER APPROACHES.
+    #
     try:
         cookie = request.cookies.get("Authorization", None)
         if cookie and cookie == "Cool!":
@@ -205,7 +218,11 @@ async def next_link(request: Request):
                 <body>
                     <h1>Still logged in dude.</h1>
                     <p>
-                    The authorization header is {cookie}
+                    The authorization header is {cookie}<p>
+                    <br>
+                    <b style="color:red;">PROFESSOR FERGUSON WILL DENY KNOWING YOU IF YOU CLAIM HE DID THIS<b>
+                    <br>
+                    <img src="/static/picard.jpg">
                 </body>
                 </html>
                 """
